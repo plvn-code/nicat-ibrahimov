@@ -20,4 +20,4 @@
 
 ## Далее
 - После одобрения: убрать `robots: noindex` в `src/app/[lang]/layout.tsx`, поставить домен в `site.url`, добавить sitemap + hreflang.
-- GitHub / Vercel — ещё не созданы.
+- GitHub: github.com/plvn-code/nicat-ibrahimov (public, main) — после задач commit + push. Vercel — ещё нет.
