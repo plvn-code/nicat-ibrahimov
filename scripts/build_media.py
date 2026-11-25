@@ -51,6 +51,9 @@ def post(code: str, name: str, box=None, max_side: int = MAX):
 
 def frame(video: str, t: float, name: str, box=None):
     fp = os.path.join(TMP, f"{video}_{t}.png")
+    if not os.path.exists(os.path.join(VID, video + ".mp4")) and not os.path.exists(fp):
+        print("skip (reel deleted to save disk, current photo kept):", name)
+        return
     if not os.path.exists(fp):
         subprocess.run([FF, "-loglevel", "error", "-y", "-ss", str(t), "-i", os.path.join(VID, video + ".mp4"), "-frames:v", "1", fp], check=True)
     im = Image.open(fp)
@@ -72,6 +75,9 @@ def split(code: str, name: str, seam: float = 0.5, gap: float = 0.012):
 
 def clip(video: str, start: float, dur: float, name: str):
     out = os.path.join(OUTV, name + ".mp4")
+    if not os.path.exists(os.path.join(VID, video + ".mp4")):
+        print("skip clip (reel deleted):", name)
+        return
     subprocess.run(
         [FF, "-loglevel", "error", "-y", "-ss", str(start), "-t", str(dur), "-i", os.path.join(VID, video + ".mp4"),
          "-an", "-vf", "scale=720:-2", "-c:v", "libx264", "-crf", "27", "-preset", "slow", "-pix_fmt", "yuv420p", "-movflags", "+faststart", out],
